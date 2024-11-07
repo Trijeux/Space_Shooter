@@ -17,7 +17,7 @@ Game::Game()
 
 	window.create(sf::VideoMode(background_.getGlobalBounds().width, background_.getGlobalBounds().height), "Space Shooter !!!");
 
-	player.set_position({ static_cast<float>(window.getSize().x) / 2,static_cast<float>(window.getSize().y / 6) * 5 });
+	player_.SetPosition({ static_cast<float>(window.getSize().x) / 2,static_cast<float>(window.getSize().y / 6) * 5 });
 
 	background_move_2.setPosition(0, -static_cast<int>(window.getSize().y));
 }
@@ -44,7 +44,7 @@ void Game::Loop()
 		window.clear();
 
 		sf::Event event;
-		while (window.pollEvent(event))
+           		while (window.pollEvent(event))
 		{
 			if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 			{
@@ -54,55 +54,55 @@ void Game::Loop()
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 		{
-			player.MovePlayer(sf::Vector2f(0, -1), dt_game_, window.getSize());
+			player_.Move(sf::Vector2f(0, -1), dt_game_, window.getSize());
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 		{
-			player.MovePlayer(sf::Vector2f(0, 1), dt_game_, window.getSize());
+			player_.Move(sf::Vector2f(0, 1), dt_game_, window.getSize());
 		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 		{
-			player.IdleAnimation(idle_farm_);
+			player_.Idle(idle_fram_);
 			reimu_turn_ = 0;
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		{
-			player.MovePlayer(sf::Vector2f(-1, 0), dt_game_, window.getSize());
+			player_.Move(sf::Vector2f(-1, 0), dt_game_, window.getSize());
 			reimu_turn_ = 2;
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 		{
-			player.MovePlayer(sf::Vector2f(1, 0), dt_game_, window.getSize());
+			player_.Move(sf::Vector2f(1, 0), dt_game_, window.getSize());
 			reimu_turn_ = 1;
 		}
 		else
 		{
-			player.IdleAnimation(idle_farm_);
+			player_.Idle(idle_fram_);
 			reimu_turn_ = 0;
 		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && laser_cooldown_ > 0.1)
 		{
-			projectiles_.Spawn({ player.get_position().x, player.get_position().y - 100});
+			projectiles_.Spawn({ player_.Position().x, player_.Position().y - 50}, 0, -2000, 0);
 			laser_cooldown_ = 0;
 		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
 		{
-			player.SlowMove();
+			player_.SlowMove();
 		}
 		else
 		{
-			player.NormalMove();
+			player_.NormalMove();
 		}
 
 		if (idle_cooldown_ > 0.1)
 		{
-			idle_farm_++;
-			if (idle_farm_ > player.IdleTexture().size()-1)
+			idle_fram_++;
+			if (idle_fram_ > player_.IdleTextures().size()-1)
 			{
-				idle_farm_ = 0;
+				idle_fram_ = 0;
 			}
 			idle_cooldown_ = 0;
 		}
@@ -111,9 +111,9 @@ void Game::Loop()
 
 
 		window.draw(background_);
-		window.draw(background_move_1);
+         		window.draw(background_move_1);
 		window.draw(background_move_2);
-		player.draw_Reimu(window);
+		player_.Draw(window);
 		window.draw(projectiles_);
 
 		window.display();

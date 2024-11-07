@@ -7,13 +7,15 @@
 class Reimu
 {
 private:
-
-protected:
 	enum class TurnFarm
 	{
 		kRight,
 		kLeft,
 	};
+
+
+	const float max_speed_ = 600.0f;
+	float speed_ = max_speed_;
 
 	std::array<sf::Texture, 2> turn_textures_;
 	std::array<sf::Texture, 4> idle_textures_;
@@ -23,22 +25,29 @@ protected:
 	sf::Texture heart_visual_texture_;
 	sf::Sprite heart_visual_sprite_;
 public:
+	Reimu();
+
 	int hp_;
-
 	bool heart_is_visible_ = false;
-
-	std::array<sf::Texture, 4> IdleTexture() const { return idle_textures_; }
 
 	void Turn(TurnFarm);
 	void Idle(int);
 
-	void set_sprite();
+	void SetSpritePlayer();
 
-	void draw_Reimu(sf::RenderWindow& window);
+	void Draw(sf::RenderWindow& window) const;
 
-	void set_position(sf::Vector2f pos);
-	sf::Vector2f get_position();
+	void SetPosition(sf::Vector2f pos);
 
+	void Move(sf::Vector2f direction, float dt, const sf::Vector2u& window_size);
+
+	void SlowMove();
+
+	void NormalMove();
+
+	auto Position() const { return reimu_sprite_.getPosition(); }
+
+	auto IdleTextures() const { return idle_textures_; }
 };
 
 #endif

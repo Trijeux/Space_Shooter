@@ -19,21 +19,25 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Enemies.cc" />
+    <ClCompile Include="enemy.cpp" />
+    <ClCompile Include="enemy_manager.cpp" />
+    <ClCompile Include="entity.cpp" />
+    <ClCompile Include="entity_manager.cpp" />
     <ClCompile Include="game.cc" />
     <ClCompile Include="main.cc" />
-    <ClCompile Include="Player.cc" />
-    <ClCompile Include="Projectile.cc" />
+    <ClCompile Include="projectile.cc" />
     <ClCompile Include="projectile_manager.cc" />
-    <ClCompile Include="Reimu.cc" />
+    <ClCompile Include="reimu.cc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Enemies.h" />
+    <ClInclude Include="enemy.h" />
+    <ClInclude Include="enemy_manager.h" />
+    <ClInclude Include="entity.h" />
+    <ClInclude Include="entity_manager.h" />
     <ClInclude Include="game.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Projectile.h" />
+    <ClInclude Include="projectile.h" />
     <ClInclude Include="projectile_manager.h" />
-    <ClInclude Include="Reimu.h" />
+    <ClInclude Include="reimu.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

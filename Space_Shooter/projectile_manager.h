@@ -2,9 +2,9 @@
 #define PROJECTILE_MANAGER_H
 
 
-#include "Projectile.h"
+#include "projectile.h"
 
-class ProjectileManager : public sf::Drawable
+class ProjectileManager final : public sf::Drawable
 {
 private:
 	std::vector<Projectile> projectiles_;
@@ -14,7 +14,7 @@ public:
 	std::vector<Projectile> Projectiles() const { return projectiles_; }
 
 	ProjectileManager();
-	void Spawn(sf::Vector2f spawn_position);
+	void Spawn(sf::Vector2f spawn_position, float x, float y, float rotate);
 
 	void Refresh(float dt_, const sf::Vector2u& window_size);
 

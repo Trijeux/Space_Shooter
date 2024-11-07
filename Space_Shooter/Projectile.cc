@@ -1,23 +1,25 @@
-#include "Projectile.h"
+#include "projectile.h"
 
 #include <SFML/Graphics/RenderTarget.hpp>
 
 int Projectile::counter_ = 0;
 sf::Texture Projectile::texture_;
 
-Projectile::Projectile()
+Projectile::Projectile(float x, float y, const float rotate)
 {
 	texture_.loadFromFile("Assets/Card.png");
 	sprite_.setTexture(texture_);
 	sprite_.setOrigin(sprite_.getGlobalBounds().width / 2, 0);
-	direction_ = { 0, -2000 };
+	sprite_.setRotation(rotate);
+	sprite_.setColor(sf::Color(255, 255, 255, 150));
+	direction_ = { x, y };
 	counter_++;
 }
 
 void Projectile::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	states.transform *= getTransform();
-	target.draw(sprite_, states);
+    	target.draw(sprite_, states);
 }
 
 void Projectile::Move(float dt, const sf::Vector2u& window_size)

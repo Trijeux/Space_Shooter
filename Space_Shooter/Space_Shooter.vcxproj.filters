@@ -21,19 +21,25 @@
     <ClCompile Include="main.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Reimu.cc">
+    <ClCompile Include="reimu.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="projectile_manager.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Projectile.cc">
+    <ClCompile Include="projectile.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cc">
+    <ClCompile Include="enemy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Enemies.cc">
+    <ClCompile Include="enemy_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="entity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="entity_manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -41,19 +47,25 @@
     <ClInclude Include="game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Enemies.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Projectile.h">
+    <ClInclude Include="projectile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="projectile_manager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Reimu.h">
+    <ClInclude Include="reimu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy_manager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="entity_manager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

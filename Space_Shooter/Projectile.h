@@ -20,7 +20,7 @@ private:
 	bool is_dead_ = false;
 
 public:
-	Projectile();
+	Projectile(float x, float y, float rotate);
 	void Move(float dt, const sf::Vector2u& window_size);
 	bool IsDead() const { return is_dead_; }
 
