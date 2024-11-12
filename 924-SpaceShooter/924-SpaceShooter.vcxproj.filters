@@ -15,22 +15,25 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="game.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="main.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="reimu.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="projectile_manager.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="projectile.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="game.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="projectile_manager.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="starship.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="asteroid.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="entity.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="asteroid_manager.cc">
@@ -42,21 +45,30 @@
     <ClCompile Include="enemy_manager.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="entity.cc">
+    <ClCompile Include="save.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="game.h">
+    <ClInclude Include="projectile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="projectile.h">
+    <ClInclude Include="game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="projectile_manager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="reimu.h">
+    <ClInclude Include="starship.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="asteroid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="asteroid_manager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="enemy.h">
@@ -65,10 +77,7 @@
     <ClInclude Include="enemy_manager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="entity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="entity_manager.h">
+    <ClInclude Include="save.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

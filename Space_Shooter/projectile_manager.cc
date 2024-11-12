@@ -3,6 +3,9 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <iostream>
 
+#include "asteroid.h"
+#include "enemy.h"
+
 
 ProjectileManager::ProjectileManager()
 {
@@ -15,6 +18,38 @@ void ProjectileManager::Spawn(sf::Vector2f spawn_position, float x, float y, flo
 	projectiles_.back().setPosition(spawn_position);
 	//sound_projectile.setBuffer(sfx);
 	//sound_projectile.play();
+}
+
+void ProjectileManager::CheckCollisions(std::vector<Asteroid>& asteroids)
+{
+	for (auto& p : projectiles_)
+	{
+		for (auto& a : asteroids)
+		{
+			if (p.IsDead() == false && a.IsDead() == false && p.Intersects(a.HitBox()))
+			{
+				p.SetDeath();
+				a.SetDeath();
+			}
+		}
+	}
+
+}
+
+void ProjectileManager::CheckCollisions(std::vector<Enemy>& enemies)
+{
+	for (auto& p : projectiles_)
+	{
+		for (auto& e : enemies)
+		{
+			if (p.IsDead() == false && e.IsDead() == false && p.Intersects(e.HitBox()))
+			{
+				p.SetDeath();
+				e.Damage(1);
+			}
+		}
+	}
+
 }
 
 void ProjectileManager::Refresh(float dt_, const sf::Vector2u& window_size)

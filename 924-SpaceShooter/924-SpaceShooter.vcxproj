@@ -18,33 +18,11 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="asteroid.cc" />
-    <ClCompile Include="asteroid_manager.cc" />
-    <ClCompile Include="enemy.cc" />
-    <ClCompile Include="enemy_manager.cc" />
-    <ClCompile Include="entity.cc" />
-    <ClCompile Include="game.cc" />
-    <ClCompile Include="main.cc" />
-    <ClCompile Include="projectile.cc" />
-    <ClCompile Include="projectile_manager.cc" />
-    <ClCompile Include="reimu.cc" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="enemy.h" />
-    <ClInclude Include="enemy_manager.h" />
-    <ClInclude Include="entity.h" />
-    <ClInclude Include="entity_manager.h" />
-    <ClInclude Include="game.h" />
-    <ClInclude Include="projectile.h" />
-    <ClInclude Include="projectile_manager.h" />
-    <ClInclude Include="reimu.h" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{b52621d9-86b9-48aa-b759-02ba71767553}</ProjectGuid>
-    <RootNamespace>SpaceShooter</RootNamespace>
+    <ProjectGuid>{a9ea48db-cd88-407f-b252-fcf269136800}</ProjectGuid>
+    <RootNamespace>My924SpaceShooter</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -126,6 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -140,6 +119,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -148,6 +128,31 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="asteroid.cc" />
+    <ClCompile Include="asteroid_manager.cc" />
+    <ClCompile Include="enemy.cc" />
+    <ClCompile Include="enemy_manager.cc" />
+    <ClCompile Include="entity.cc" />
+    <ClCompile Include="main.cc" />
+    <ClCompile Include="game.cc" />
+    <ClCompile Include="projectile.cc" />
+    <ClCompile Include="projectile_manager.cc" />
+    <ClCompile Include="save.cc" />
+    <ClCompile Include="starship.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="asteroid.h" />
+    <ClInclude Include="asteroid_manager.h" />
+    <ClInclude Include="enemy.h" />
+    <ClInclude Include="enemy_manager.h" />
+    <ClInclude Include="entity.h" />
+    <ClInclude Include="game.h" />
+    <ClInclude Include="projectile.h" />
+    <ClInclude Include="projectile_manager.h" />
+    <ClInclude Include="save.h" />
+    <ClInclude Include="starship.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

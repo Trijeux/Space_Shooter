@@ -11,7 +11,7 @@ class Enemy : public Entity
 
 private:
 	static sf::Texture texture_;
-	int hp_ = 10;
+	int hp_ = 3;
 
 	float shoot_dt_ = 0.f;
 	float burst_dt_ = 0.f;
@@ -25,7 +25,7 @@ public:
 	sf::Vector2f GetPosition();
 
 	void Refresh(float dt);
-	void Damage(int damage);
+	bool Damage(int damage);
 	bool IsShootReady();
 
 };

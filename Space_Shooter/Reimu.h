@@ -1,7 +1,11 @@
 #ifndef SHIP_H
 #define SHIP_H
 #include <array>
+#include <vector>
 
+#include "asteroid.h"
+#include "enemy.h"
+#include "projectile.h"
 #include "SFML/Graphics.hpp"
 
 class Reimu
@@ -16,6 +20,7 @@ private:
 
 	const float max_speed_ = 600.0f;
 	float speed_ = max_speed_;
+	sf::FloatRect hit_box_;
 
 	std::array<sf::Texture, 2> turn_textures_;
 	std::array<sf::Texture, 4> idle_textures_;
@@ -40,6 +45,10 @@ public:
 	void SetPosition(sf::Vector2f pos);
 
 	void Move(sf::Vector2f direction, float dt, const sf::Vector2u& window_size);
+
+	void CheckCollisions(std::vector<Asteroid>& asteroids);
+	void CheckCollisions(std::vector<Projectile>& projectiles);
+	void CheckCollisions(std::vector<Enemy>& enemies);
 
 	void SlowMove();
 

@@ -2,15 +2,21 @@
 #define GAME_H
 
 #include <SFML/Graphics/RenderWindow.hpp>
+
+#include "asteroid_manager.h"
+#include "enemy_manager.h"
 #include "projectile_manager.h"
 #include "reimu.h"
 
 class Game
 {
 private:
-	sf::RenderWindow window;
+	sf::RenderWindow window_;
 	Reimu player_;
 	ProjectileManager projectiles_;
+	ProjectileManager projection_enemy_;
+	EnemyManager enemy_manager_;
+	AsteroidManager asteroid_manager_;
 	sf::Texture backgroud_texture_;
 	sf::Texture backgroud_move_texture;
 	sf::Sprite background_;

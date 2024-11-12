@@ -1,5 +1,7 @@
 #include "reimu.h"
 
+#include "asteroid.h"
+
 void Reimu::Move(sf::Vector2f direction, float dt, const sf::Vector2u& window_size)
 {
 	sf::Vector2f new_pos = reimu_sprite_.getPosition() + speed_ * direction * dt;
@@ -20,6 +22,43 @@ void Reimu::Move(sf::Vector2f direction, float dt, const sf::Vector2u& window_si
 
 }
 
+void Reimu::CheckCollisions(std::vector<Asteroid>& asteroids)
+{
+	for (auto& a : asteroids)
+	{
+		if (a.IsDead() == false && hit_box_.intersects(a.HitBox()))
+		{
+			a.SetDeath(); // Death of the asteroid --------------------------
+			// Starship damages ?????
+		}
+	}
+
+}
+
+void Reimu::CheckCollisions(std::vector<Projectile>& projectiles)
+{
+	for (auto& p : projectiles)
+	{
+		if (p.IsDead() == false && hit_box_.intersects(p.HitBox()))
+		{
+			p.SetDeath(); // Death of the projectile --------------------------
+			// Starship damages ?????
+		}
+	}
+}
+
+void Reimu::CheckCollisions(std::vector<Enemy>& enemies)
+{
+	for (auto& e : enemies)
+	{
+		if (e.IsDead() == false && hit_box_.intersects(e.HitBox()))
+		{
+			e.Damage(5);
+			// Starship damages ?????
+		}
+	}
+}
+
 void Reimu::SlowMove()
 {
 	speed_ = max_speed_ / 2;
@@ -36,6 +75,9 @@ void Reimu::NormalMove()
 Reimu::Reimu()
 {
 	SetSpritePlayer();
+	hit_box_.height = (float)reimu_sprite_.getTextureRect().width * reimu_sprite_.getScale().x;
+	hit_box_.width = (float)reimu_sprite_.getTextureRect().height * reimu_sprite_.getScale().y;
+
 }
 
 void Reimu::Turn(TurnFarm turn)

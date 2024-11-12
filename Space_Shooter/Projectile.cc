@@ -13,6 +13,8 @@ Projectile::Projectile(float x, float y, const float rotate)
 	sprite_.setRotation(rotate);
 	sprite_.setColor(sf::Color(255, 255, 255, 150));
 	direction_ = { x, y };
+	hit_box_.height = (float)sprite_.getTextureRect().width * sprite_.getScale().x;
+	hit_box_.width = (float)sprite_.getTextureRect().height * sprite_.getScale().y;
 	counter_++;
 }
 

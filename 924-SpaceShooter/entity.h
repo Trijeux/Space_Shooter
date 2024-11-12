@@ -32,7 +32,7 @@ public:
 	void SetPosition(sf::Vector2f position);
 
 	bool Intersects(sf::FloatRect hitBox) const;
-	sf::FloatRect HitBox() const { return hit_box_; }
+	sf::FloatRect HitBox() { return hit_box_; };
 
 };
 
