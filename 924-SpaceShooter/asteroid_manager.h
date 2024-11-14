@@ -15,7 +15,9 @@ private:
 	std::vector<Asteroid> asteroids_;
 	sf::Clock timer_;
 	float time_elapsed_ = 0;
+	float rotation_ = 0;
 
+	const float kRotationfram = 0.02f;
 public:
 	void Refresh(float dt, const sf::Vector2u& window_size);
 	std::vector<Asteroid>& GetEntities() { return asteroids_; }

@@ -24,6 +24,7 @@ protected:
 
 public:
 	//Entity();
+	sf::Sprite& Sprite() { return sprite_; }
 	bool IsDead() const { return is_dead_; }
 	void SetDeath() { is_dead_ = true; }
 

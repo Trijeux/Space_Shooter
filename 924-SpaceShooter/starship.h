@@ -1,6 +1,7 @@
 #ifndef STARSHIP_H
 #define STARSHIP_H
 
+#include <array>
 #include <vector>
 
 #include <SFML/Graphics/Drawable.hpp>
@@ -18,7 +19,13 @@ constexpr float kSpeed = 500.f;
 class Starship : public sf::Drawable, private sf::Transformable
 {
 private:
-	sf::Texture texture_;
+	enum class TurnFarm
+	{
+		kRight,
+		kLeft,
+	};
+
+
 	sf::Sprite sprite_;
 	sf::FloatRect hit_box_;
 	float speed_ = kSpeed;
@@ -34,7 +41,21 @@ private:
 	int hp_ = 10;
 
 	bool is_dead_ = false;
+
+	std::array<sf::Texture, 2> turn_textures_;
+	std::array<sf::Texture, 4> idle_textures_;
+
+	bool is_hit_ = false;
+	int num_hit_anim = 0;
 public:
+
+	void AnimUpdate(int fram);
+
+	void HitAnimation(float& hit_cooldown_);
+
+	bool IsHit() { return is_hit_; }
+
+	std::array<sf::Texture, 4> IdleTextures() { return idle_textures_; }
 
 	int Hp() const { return hp_; }
 

@@ -38,6 +38,12 @@ void AsteroidManager::Refresh(float dt, const sf::Vector2u& window_size)
 	for (Asteroid& p : asteroids_)
 	{
 		p.Move(dt, window_size);
+		/*rotation_ += kRotationfram;
+		if (rotation_ >= 360)
+		{
+			rotation_ = 0;
+		}
+		p.Sprite().setRotation(rotation_);*/
 	}
 }
 

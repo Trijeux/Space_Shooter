@@ -85,11 +85,24 @@ void Game::Loop()
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 				starship_.Move({ 0, 1 }, dt_, window_.getSize());
 
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+			{
+				starship_.Move({ 0, 0 }, dt_, window_.getSize());
+				starship_.AnimUpdate(idle_frame_);
+			}
+				
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 				starship_.Move({ -1 , 0 }, dt_, window_.getSize());
 
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 				starship_.Move({ 1, 0 }, dt_, window_.getSize());
+
+			else
+			{
+				starship_.Move({ 0, 0 }, dt_, window_.getSize());
+				starship_.AnimUpdate(idle_frame_);
+			}
 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
 				starship_.SlowMove();
@@ -97,6 +110,15 @@ void Game::Loop()
 				starship_.NormalMove();
 
 
+			if (idle_cooldown_ > 0.1)
+			{
+				idle_frame_++;
+				if (idle_frame_ > starship_.IdleTextures().size() - 1)
+				{
+					idle_frame_ = 0;
+				}
+				idle_cooldown_ = 0;
+			}
 
 			player_missiles_.Refresh(dt_, window_.getSize());
 			asteroids_.Refresh(dt_, window_.getSize());
@@ -104,9 +126,16 @@ void Game::Loop()
 			enemy_missiles_.Refresh(dt_, window_.getSize());
 			enemy_manager_.Refresh(dt_, window_.getSize(), enemy_missiles_);
 
-			starship_.CheckCollisions(asteroids_.GetEntities());
-			starship_.CheckCollisions(enemy_manager_.GetEntities());
-			starship_.CheckCollisions(enemy_missiles_.GetEntities());
+			if (!starship_.IsHit())
+			{
+				starship_.CheckCollisions(asteroids_.GetEntities());
+				starship_.CheckCollisions(enemy_manager_.GetEntities());
+				starship_.CheckCollisions(enemy_missiles_.GetEntities());
+			}
+			else
+			{
+				starship_.HitAnimation(hit_cooldown_);
+			}
 
 
 			if (player_missiles_.CheckCollisions(asteroids_.GetEntities()))
@@ -148,6 +177,10 @@ void Game::Loop()
 			window_.draw(starship_);
 			window_.draw(player_hp_);
 			window_.draw(score_);
+			if (starship_.HeartIsVisible_())
+			{
+				starship_.DrawHeart(window_);
+			}
 		}
 		else
 		{
@@ -163,13 +196,11 @@ void Game::Loop()
 			game_over_.setPosition(window_.getSize().x / 2, window_.getSize().y / 2);
 			window_.draw(game_over_);
 		}
-		if (starship_.HeartIsVisible_())
-		{
-			starship_.DrawHeart(window_);
-		}
 		window_.display();
 
 		// At the end of the game loop
+		idle_cooldown_ += dt_;
+		hit_cooldown_ += dt_;
 		dt_ = clock_.restart().asSeconds();
 	}
 

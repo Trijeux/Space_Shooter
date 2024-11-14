@@ -43,6 +43,10 @@ private:
 
 	std::vector<int> players_;
 
+	int idle_frame_ = 0;
+	float idle_cooldown_ = 0;
+	float hit_cooldown_ = 0;
+
 	Save save_;
 
 public:

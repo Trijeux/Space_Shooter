@@ -7,12 +7,43 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
+void Starship::AnimUpdate(int fram)
+{
+	sprite_.setTexture(idle_textures_.at(fram));
+}
+
+void Starship::HitAnimation(float& hit_cooldown_)
+{
+	if (hit_cooldown_ > 0.1f && hit_cooldown_ < 0.12f)
+	{
+		sprite_.setColor(sf::Color(255, 255, 255, 50));
+	}
+	else if (hit_cooldown_ > 0.2f)
+	{
+		sprite_.setColor(sf::Color(255, 255, 255, 255));
+		hit_cooldown_ = 0;
+		num_hit_anim++;
+	}
+
+	if (num_hit_anim >= 6)
+	{
+		num_hit_anim = 0;
+		is_hit_ = false;
+	}
+}
+
 Starship::Starship()
 {
-	texture_.loadFromFile("assets\\PNG\\Reimu_Idle(0).png");
+	turn_textures_.at(static_cast<int>(TurnFarm::kRight)).loadFromFile("Assets\\PNG\\Reimu_right.png");
+	turn_textures_.at(static_cast<int>(TurnFarm::kLeft)).loadFromFile("Assets\\PNG\\Reimu_left.png");
 
-	sprite_.setTexture(texture_);
-	sprite_.setOrigin(texture_.getSize().x / 2, texture_.getSize().y / 2);
+	for (int idx = 0; idx < idle_textures_.size(); idx++)
+	{
+		idle_textures_.at(idx).loadFromFile("Assets\\PNG\\Reimu_Idle(" + std::to_string(idx) + ").png");
+	}
+
+	sprite_.setTexture(idle_textures_.at(0));
+	sprite_.setOrigin(idle_textures_.at(0).getSize().x / 2, idle_textures_.at(0).getSize().y / 2);
 
 	heart_visual_texture_.loadFromFile("assets\\PNG\\Heart.png");
 	heart_visual_sprite_.setTexture(heart_visual_texture_);
@@ -33,11 +64,11 @@ void Starship::Move(sf::Vector2f direction, float dt, sf::Vector2u window_size)
 
 	if (getPosition().x > new_pos.x)
 	{
-		//sprite_.setTexture(turn_textures_.at(static_cast<int>(TurnFarm::kLeft)));
+		sprite_.setTexture(turn_textures_.at(static_cast<int>(TurnFarm::kLeft)));
 	}
 	else if (getPosition().x < new_pos.x)
 	{
-		//sprite_.setTexture(turn_textures_.at(static_cast<int>(TurnFarm::kRight)));
+		sprite_.setTexture(turn_textures_.at(static_cast<int>(TurnFarm::kRight)));
 	}
 
 	if (!(new_pos.x < 0 + sprite_.getGlobalBounds().width / 2 || new_pos.x > window_size.x - sprite_.getGlobalBounds().width / 2 || new_pos.y < 0 + sprite_.getGlobalBounds().height / 2 || new_pos.y > window_size.y - sprite_.getGlobalBounds().height / 2))
@@ -72,6 +103,7 @@ void Starship::CheckCollisions(std::vector<Asteroid>& asteroids)
 			{
 				is_dead_ = true;
 			}
+			is_hit_ = true;
 		}
 	}
 }
@@ -88,6 +120,7 @@ void Starship::CheckCollisions(std::vector<Projectile>& projectiles)
 			{
 				is_dead_ = true;
 			}
+			is_hit_ = true;
 		}
 	}
 }
@@ -99,7 +132,12 @@ void Starship::CheckCollisions(std::vector<Enemy>& enemies)
 		if (e.IsDead() == false && hit_box_.intersects(e.HitBox()))
 		{
 			e.Damage(5);
-			// Starship damages ?????
+			hp_--;
+			if (hp_ <= 0)
+			{
+				is_dead_ = true;
+			}
+			is_hit_ = true;
 		}
 	}
 }
