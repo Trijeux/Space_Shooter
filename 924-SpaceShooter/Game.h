@@ -2,19 +2,23 @@
 #define GAME_H
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 #include "projectile_manager.h"
 #include "starship.h"
 #include "asteroid_manager.h"
-#include "enemy.h"
 #include "enemy_manager.h"
 #include "save.h"
 
 class Game
 {
-
+public:
+	Game();
+	void Loop();
 private:
 	sf::RenderWindow window_;
+
+	sf::Music music_;
 
 	ProjectileManager player_missiles_;
 	ProjectileManager enemy_missiles_;
@@ -48,10 +52,6 @@ private:
 	float hit_cooldown_ = 0;
 
 	Save save_;
-
-public:
-	Game();
-	void Loop();
 };
 
 

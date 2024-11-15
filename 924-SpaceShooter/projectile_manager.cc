@@ -5,12 +5,12 @@
 
 #include "asteroid.h"
 
-constexpr float kCooldown_limit_ = 0.15f;
+constexpr float kCooldownLimit = 0.15f;
 
 void ProjectileManager::Spawn(sf::Vector2f spawn_position, sf::Vector2f direction)
 {
 
-	if (cooldwon_dt_ < kCooldown_limit_)
+	if (cooldwon_dt_ < kCooldownLimit)
 		return;
 
 	projectiles_.emplace_back(direction);

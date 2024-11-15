@@ -5,13 +5,12 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
 
-constexpr float kCooldown_limit_ = 0.15f;
+constexpr float kCooldownLimit = 0.15f;
 
 Game::Game()
 {
-	//assets\\PNG\\Lasers\\Card.png
-	backgroud_texture_.loadFromFile("assets\\PNG\\Background.png");
-	backgroud_move_texture.loadFromFile("assets\\PNG\\Background_move.png");
+	backgroud_texture_.loadFromFile("assets/PNG/Background.png");
+	backgroud_move_texture.loadFromFile("assets/PNG/Background_move.png");
 
 	background_.setTexture(backgroud_texture_);
 	background_.setScale(1.2f, 1.2f);
@@ -31,12 +30,17 @@ Game::Game()
 
 	window_.setMouseCursorVisible(false);
 
-	font_.loadFromFile("assets\\Font\\Vermin Vibes 1989.ttf");
+	font_.loadFromFile("assets/Font/Vermin Vibes 1989.ttf");
 	score_.setFont(font_);
 	game_over_.setFont(font_);
 	player_hp_.setFont(font_);
 
 	save_.Load(players_);
+
+	music_.openFromFile("assets/Sound/Airwolf_2.wav");
+	music_.setLoop(true);
+	music_.play();
+	music_.setVolume(30);
 }
 void Game::Loop()
 {
@@ -68,36 +72,23 @@ void Game::Loop()
 
 
 
-			if (sf::Joystick::isButtonPressed(0, 0) || sf::Keyboard::isKeyPressed(sf::Keyboard::Space) || sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 			{
 				player_missiles_.Spawn(starship_.GetPosition(), { 0, -1500 });
 			}
-
-			// what's the current position of the X and Y axes of joystick number 0?
-			const float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
-			const float y = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
-			if (x * x + y * y > 0)
-				starship_.Move({ x / 100.0f , y / 100.0f }, dt_, window_.getSize());
-
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 				starship_.Move({ 0, -1 }, dt_, window_.getSize());
-
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 				starship_.Move({ 0, 1 }, dt_, window_.getSize());
-
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 			{
 				starship_.Move({ 0, 0 }, dt_, window_.getSize());
 				starship_.AnimUpdate(idle_frame_);
 			}
-				
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 				starship_.Move({ -1 , 0 }, dt_, window_.getSize());
-
-
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 				starship_.Move({ 1, 0 }, dt_, window_.getSize());
-
 			else
 			{
 				starship_.Move({ 0, 0 }, dt_, window_.getSize());
