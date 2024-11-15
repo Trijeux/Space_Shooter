@@ -4,11 +4,15 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
+#include <windows.h>
 
 constexpr float kCooldownLimit = 0.15f;
 
 Game::Game()
 {
+	HWND consoleWindow = GetConsoleWindow();
+	ShowWindow(consoleWindow, SW_HIDE);
+
 	backgroud_texture_.loadFromFile("assets/PNG/Background.png");
 	backgroud_move_texture.loadFromFile("assets/PNG/Background_move.png");
 
