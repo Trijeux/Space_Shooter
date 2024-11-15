@@ -8,49 +8,34 @@
 
 constexpr float kCooldownLimit = 0.15f;
 
-void ProjectileManager::Spawn(sf::Vector2f spawn_position, sf::Vector2f direction, sf::Sound& sound, int rotate)
+void ProjectileManager::Spawn(const sf::Vector2f spawn_position, sf::Vector2f direction, sf::Sound& sound, const int rotate)
 {
 
-	if (cooldwon_dt_ < kCooldownLimit)
+	if (cooldown_dt_ < kCooldownLimit)
 		return;
 
 	sound.play();
 	projectiles_.emplace_back(direction);
 	projectiles_.back().SetPosition(spawn_position);
 	projectiles_.back().SetScale(1, rotate);
-	cooldwon_dt_ = 0;
+	cooldown_dt_ = 0;
 
 }
 
-void ProjectileManager::Refresh(float dt, const sf::Vector2u& window_size)
+void ProjectileManager::Refresh(const float dt, const sf::Vector2u& window_size)
 {
 
-	cooldwon_dt_ += cooldown_timer_.restart().asSeconds();
-	//std::cout << "Cooldown Timer : " << cooldwon_dt_ << '\n';
+	cooldown_dt_ += cooldown_timer_.restart().asSeconds();
 
-
-	// Cleaning unused projectiles
-	auto removed_elt = std::remove_if(
-		projectiles_.begin(),
-		projectiles_.end(),
-		[](const Projectile& p) {return p.IsDead(); }
-	);
-
-	if (removed_elt != projectiles_.end())
+	if (const auto removed_elt = std::ranges::remove_if(projectiles_,[](const Projectile& p) {return p.IsDead(); }).begin(); removed_elt != projectiles_.end())
 	{
 		projectiles_.erase(removed_elt, projectiles_.end());
 	}
 
-	//erase_if(projectiles_, [](const Projectile& p) {return p.IsDead(); });
-
-	// Move remaining projectiles
 	for (Projectile& p : projectiles_)
 	{
 		p.Move(dt, window_size);
 	}
-
-	//std::cout << "nb projectiles ? " << projectiles_.size() << '\n';
-
 }
 
 bool ProjectileManager::CheckCollisions(std::vector<Asteroid>& asteroids)

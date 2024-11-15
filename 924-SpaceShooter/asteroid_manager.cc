@@ -2,34 +2,29 @@
 
 #include <random>
 
-void AsteroidManager::Refresh(float dt, const sf::Vector2u& window_size)
+void AsteroidManager::Refresh(const float dt, const sf::Vector2u& window_size)
 {
 
 	time_elapsed_ += dt;
-	if(time_elapsed_ > 0.65f)
+	if (time_elapsed_ > 0.65f)
 	{
 		asteroids_.emplace_back();
 
-		// Tirage aléatoire de Y
+		// Tirage aléatoire de Y  // NOLINT(clang-diagnostic-invalid-utf8)
 		// // Seed with a real random value, if available
 		std::random_device rn_device;
 		// Choose a random mean between 1 and 6
 		std::default_random_engine engine(rn_device());
-		std::uniform_real_distribution<float> uniform_dist(0, window_size.y);
+		std::uniform_real_distribution<float> uniform_dist(0, window_size.y);  // NOLINT(bugprone-narrowing-conversions, clang-diagnostic-implicit-int-float-conversion, cppcoreguidelines-narrowing-conversions)
 
-		asteroids_.back().SetPosition (uniform_dist(engine),0);
+		asteroids_.back().SetPosition(uniform_dist(engine), 0);
 
 		time_elapsed_ = 0;
 	}
 
 	// Cleaning unused projectiles
-	auto removed_elt = std::remove_if(
-		asteroids_.begin(),
-		asteroids_.end(),
-		[](const Asteroid& p) {return p.IsDead(); }
-	);
 
-	if (removed_elt != asteroids_.end())
+	if (const auto removed_elt = std::ranges::remove_if(asteroids_,[](const Asteroid& p) {return p.IsDead(); }).begin(); removed_elt != asteroids_.end())
 	{
 		asteroids_.erase(removed_elt);
 	}
@@ -38,7 +33,7 @@ void AsteroidManager::Refresh(float dt, const sf::Vector2u& window_size)
 	for (Asteroid& p : asteroids_)
 	{
 		p.Move(dt, window_size);
-		/*rotation_ += kRotationfram;
+		/*rotation_ += rotation_fram_
 		if (rotation_ >= 360)
 		{
 			rotation_ = 0;
@@ -49,9 +44,9 @@ void AsteroidManager::Refresh(float dt, const sf::Vector2u& window_size)
 
 void AsteroidManager::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	for (auto& myAsteroid : asteroids_)
+	for (auto& my_asteroid : asteroids_)
 	{
-		target.draw(myAsteroid);
+		target.draw(my_asteroid);
 	}
 }
 

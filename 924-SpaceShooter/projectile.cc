@@ -6,7 +6,7 @@
 
 sf::Texture Projectile::texture_;
 
-Projectile::Projectile(sf::Vector2f direction)
+Projectile::Projectile(const sf::Vector2f direction)
 {
 	texture_.loadFromFile("assets\\PNG\\Card.png");
 
@@ -16,8 +16,8 @@ Projectile::Projectile(sf::Vector2f direction)
 
 
 	// Inversion width / height because of rotation
-	hit_box_.height = (float)sprite_.getTextureRect().width * getScale().x;
-	hit_box_.width = (float)sprite_.getTextureRect().height * getScale().y;
+	hit_box_.height = static_cast<float>(sprite_.getTextureRect().width) * getScale().x;
+	hit_box_.width = static_cast<float>(sprite_.getTextureRect().height) * getScale().y;
 
 	direction_ = direction;
 

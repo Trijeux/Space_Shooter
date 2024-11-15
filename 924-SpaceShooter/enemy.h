@@ -7,7 +7,7 @@
 
 #include "entity.h"
 
-class Enemy : public Entity
+class Enemy final : public Entity
 {
 
 private:
@@ -18,16 +18,16 @@ private:
 	float burst_dt_ = 0.f;
 	bool wait_shoot_ = false;
 
-	void SetDeath();
+	void SetDeath() override;
 
-	static sf::SoundBuffer soundFx_Card;
-	static sf::Sound Shoot_Sound;
+	static sf::SoundBuffer sound_fx_card_;
+	static sf::Sound shoot_sound_;
 public:
 	Enemy();
 
-	sf::Sound& ShootSound() { return Shoot_Sound; }
+	static sf::Sound& ShootSound() { return shoot_sound_; }
 
-	sf::Vector2f GetPosition();
+	sf::Vector2f GetPosition() const;
 
 	void Refresh(float dt);
 	bool Damage(int damage);
@@ -35,4 +35,4 @@ public:
 
 };
 
-#endif // ENNEMY_H
+#endif // ENEMY_H

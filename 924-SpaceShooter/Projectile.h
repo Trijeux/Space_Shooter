@@ -9,7 +9,7 @@
 #include "entity.h"
 
 
-class Projectile : public Entity
+class Projectile final : public Entity
 {
 	
 private:
@@ -20,7 +20,7 @@ private:
 	int idx_texture_ = 0;
 
 public:
-	Projectile(sf::Vector2f direction);
+	explicit Projectile(sf::Vector2f direction);
 
 };
 

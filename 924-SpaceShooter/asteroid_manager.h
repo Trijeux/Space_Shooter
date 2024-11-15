@@ -8,7 +8,7 @@
 
 #include "asteroid.h"
 
-class AsteroidManager : public sf::Drawable
+class AsteroidManager final : public sf::Drawable
 {
 
 private:
@@ -17,7 +17,7 @@ private:
 	float time_elapsed_ = 0;
 	float rotation_ = 0;
 
-	const float kRotationfram = 0.02f;
+	//const float rotation_fram_ = 0.02f;
 public:
 	void Refresh(float dt, const sf::Vector2u& window_size);
 	std::vector<Asteroid>& GetEntities() { return asteroids_; }

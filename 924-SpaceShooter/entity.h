@@ -1,8 +1,6 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#define _USE_MATH_DEFINES
-
 #include <math.h>
 
 #include <SFML/Graphics/Sprite.hpp>
@@ -26,15 +24,15 @@ public:
 	//Entity();
 	sf::Sprite& Sprite() { return sprite_; }
 	bool IsDead() const { return is_dead_; }
-	void SetDeath() { is_dead_ = true; }
+	virtual void SetDeath() { is_dead_ = true; }
 
 	void Move(float dt, const sf::Vector2u& window_size);
 	void SetPosition(float x, float y);
 	void SetPosition(sf::Vector2f position);
 	void SetScale(int scale_x, int scale_y);
 
-	bool Intersects(sf::FloatRect hitBox) const;
-	sf::FloatRect HitBox() { return hit_box_; };
+	bool Intersects(sf::FloatRect hit_box) const;
+	sf::FloatRect HitBox() const { return hit_box_; }
 
 };
 

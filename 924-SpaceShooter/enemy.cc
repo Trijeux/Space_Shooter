@@ -1,8 +1,8 @@
 #include "enemy.h"
 
 sf::Texture Enemy::texture_;
-sf::SoundBuffer Enemy::soundFx_Card;
-sf::Sound Enemy::Shoot_Sound;
+sf::SoundBuffer Enemy::sound_fx_card_;
+sf::Sound Enemy::shoot_sound_;
 
 
 constexpr float kShootPeriod = 0.3f;
@@ -11,26 +11,26 @@ constexpr float kBurstPeriod = 0.5f;
 Enemy::Enemy()
 {
 
-	texture_.loadFromFile("assets\\PNG\\Enemy.png");
+	texture_.loadFromFile("assets/PNG/Enemy.png");
 	sprite_.setTexture(texture_);
-	sprite_.setOrigin(sprite_.getTextureRect().width / 2, sprite_.getTextureRect().height / 2);
+	sprite_.setOrigin(sprite_.getTextureRect().width / 2, sprite_.getTextureRect().height / 2);  // NOLINT(bugprone-integer-division, bugprone-narrowing-conversions, clang-diagnostic-implicit-int-float-conversion, cppcoreguidelines-narrowing-conversions)
 
-	hit_box_.width = (float)sprite_.getTextureRect().width * sprite_.getScale().x;
-	hit_box_.height = (float)sprite_.getTextureRect().height * sprite_.getScale().y;
+	hit_box_.width = static_cast<float>(sprite_.getTextureRect().width) * sprite_.getScale().x;
+	hit_box_.height = static_cast<float>(sprite_.getTextureRect().height) * sprite_.getScale().y;
 
 	direction_ = { 0, 150 };
 
-	soundFx_Card.loadFromFile("assets/Sound/Card.wav");
-	Shoot_Sound.setBuffer(soundFx_Card);
-	Shoot_Sound.setVolume(15);
+	sound_fx_card_.loadFromFile("assets/Sound/Card.wav");
+	shoot_sound_.setBuffer(sound_fx_card_);
+	shoot_sound_.setVolume(15);
 }
 
-sf::Vector2f Enemy::GetPosition()
+sf::Vector2f Enemy::GetPosition() const
 {
 	return getPosition();
 }
 
-void Enemy::Refresh(float dt)
+void Enemy::Refresh(const float dt)
 {
 	shoot_dt_ += dt;
 
@@ -42,7 +42,7 @@ void Enemy::Refresh(float dt)
 	}
 }
 
-bool Enemy::Damage(int damage)
+bool Enemy::Damage(const int damage)
 {
 	hp_ -= damage;
 

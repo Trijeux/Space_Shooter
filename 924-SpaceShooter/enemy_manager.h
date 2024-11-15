@@ -5,7 +5,7 @@
 #include "enemy.h"
 #include "projectile_manager.h"
 
-class EnemyManager : public sf::Drawable
+class EnemyManager final : public sf::Drawable
 {
 
 private:

@@ -17,7 +17,7 @@
 
 constexpr float kSpeed = 500.f;
 
-class Starship : public sf::Drawable, private sf::Transformable
+class Starship final : public sf::Drawable, private sf::Transformable
 {
 private:
 	enum class TurnFarm
@@ -47,21 +47,21 @@ private:
 	std::array<sf::Texture, 4> idle_textures_;
 
 	bool is_hit_ = false;
-	int num_hit_anim = 0;
+	int num_hit_anim_ = 0;
 
-	sf::SoundBuffer soundFx_Card;
-	sf::Sound Shoot_Sound;
+	sf::SoundBuffer sound_fx_card_;
+	sf::Sound shoot_sound_;
 
-	sf::SoundBuffer soundFx_Hit;
-	sf::Sound Hit_Sound;
+	sf::SoundBuffer sound_fx_hit_;
+	sf::Sound hit_sound_;
 public:
-	sf::Sound& ShootSound() { return Shoot_Sound; }
+	sf::Sound& ShootSound() { return shoot_sound_; }
 
 	void AnimUpdate(int fram);
 
-	void HitAnimation(float& hit_cooldown_);
+	void HitAnimation(float& hit_cooldown);
 
-	bool IsHit() { return is_hit_; }
+	bool IsHit() const { return is_hit_; }
 
 	std::array<sf::Texture, 4> IdleTextures() { return idle_textures_; }
 
@@ -69,22 +69,22 @@ public:
 
 	bool IsDead() const { return is_dead_; }
 
-	bool HeartIsVisible_() { return heart_is_visible_; }
+	bool HeartIsVisible() const { return heart_is_visible_; }
 	Starship();
 	void Move(sf::Vector2f direction, float dt, sf::Vector2u window_size);
 
 	void SetPosition(sf::Vector2u position);
 	void HitStarShip();
-	sf::Vector2f GetPosition() { return getPosition(); }
+	sf::Vector2f GetPosition() const { return getPosition(); }
 
-	sf::FloatRect HitBox() { return hit_box_; }
+	sf::FloatRect HitBox() const { return hit_box_; }
 	void CheckCollisions(std::vector<Asteroid>& asteroids);
 	void CheckCollisions(std::vector<Projectile>& projectiles);
 	void CheckCollisions(std::vector<Enemy>& enemies);
 
 	void SlowMove();
 	void NormalMove();
-	void DrawHeart(sf::RenderWindow& window);
+	void DrawHeart(sf::RenderWindow& window) const;
 protected:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 	

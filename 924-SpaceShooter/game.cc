@@ -10,30 +10,28 @@ constexpr float kCooldownLimit = 0.15f;
 
 Game::Game()
 {
-	HWND consoleWindow = GetConsoleWindow();
-	ShowWindow(consoleWindow, SW_SHOW);
+	//HWND console_window = GetConsoleWindow();
+	//ShowWindow(consoleWindow, SW_SHOW);
+	//ShowWindow(consoleWindow, SW_HIDE);
 
-	/*HWND consoleWindow = GetConsoleWindow();
-	ShowWindow(consoleWindow, SW_HIDE);*/
+	background_texture_.loadFromFile("assets/PNG/Background.png");
+	background_move_texture_.loadFromFile("assets/PNG/Background_move.png");
 
-	backgroud_texture_.loadFromFile("assets/PNG/Background.png");
-	backgroud_move_texture.loadFromFile("assets/PNG/Background_move.png");
-
-	background_.setTexture(backgroud_texture_);
+	background_.setTexture(background_texture_);
 	background_.setScale(1.2f, 1.2f);
-	background_move_1.setTexture(backgroud_move_texture);
-	background_move_1.setScale(1.2f, 1.2f);
-	background_move_1.setColor(sf::Color(255, 255, 255, 100));
-	background_move_2.setTexture(backgroud_move_texture);
-	background_move_2.setScale(1.2f, 1.2f);
-	background_move_2.setColor(sf::Color(255, 255, 255, 100));
+	background_move_1_.setTexture(background_move_texture_);
+	background_move_1_.setScale(1.2f, 1.2f);
+	background_move_1_.setColor(sf::Color(255, 255, 255, 100));
+	background_move_2_.setTexture(background_move_texture_);
+	background_move_2_.setScale(1.2f, 1.2f);
+	background_move_2_.setColor(sf::Color(255, 255, 255, 100));
 
 
-	window_.create(sf::VideoMode(background_.getGlobalBounds().width, background_.getGlobalBounds().height), "Space Shooter !!!");
+	window_.create(sf::VideoMode(background_.getGlobalBounds().width, background_.getGlobalBounds().height), "Space Shooter !!!");   // NOLINT(bugprone-narrowing-conversions, clang-diagnostic-float-conversion, cppcoreguidelines-narrowing-conversions)
 
-	starship_.SetPosition(sf::Vector2u(static_cast<float>(window_.getSize().x) / 2, static_cast<float>(window_.getSize().y / 6) * 5));
+	starship_.SetPosition(sf::Vector2u(static_cast<float>(window_.getSize().x) / 2, static_cast<float>(window_.getSize().y / 6) * 5));  // NOLINT(bugprone-narrowing-conversions, bugprone-narrowing-conversions, bugprone-integer-division, clang-diagnostic-float-conversion, cppcoreguidelines-narrowing-conversions, cppcoreguidelines-narrowing-conversions)
 
-	background_move_2.setPosition(0, -static_cast<int>(window_.getSize().y));
+	background_move_2_.setPosition(0, -static_cast<int>(window_.getSize().y));  // NOLINT(clang-diagnostic-implicit-int-float-conversion)
 
 	window_.setMouseCursorVisible(false);
 
@@ -44,10 +42,10 @@ Game::Game()
 
 	save_.Load(players_);
 
-	music_backgound_.openFromFile("assets/Sound/Airwolf_2.wav");
-	music_backgound_.setLoop(true);
-	music_backgound_.play();
-	music_backgound_.setVolume(15);
+	music_background_.openFromFile("assets/Sound/Airwolf_2.wav");
+	music_background_.setLoop(true);
+	music_background_.play();
+	music_background_.setVolume(15);
 
 	music_game_over_.openFromFile("assets/Sound/Game Over.wav");
 	music_game_over_.setVolume(25);
@@ -60,31 +58,31 @@ void Game::Loop()
 		{
 			player_hp_.setString("HP : " + std::to_string(starship_.Hp()));
 			player_hp_.setOrigin(player_hp_.getGlobalBounds().width, 0);
-			player_hp_.setPosition(window_.getSize().x - 10, 5);
+			player_hp_.setPosition(window_.getSize().x - 10, 5);  // NOLINT(bugprone-narrowing-conversions, cppcoreguidelines-narrowing-conversions, clang-diagnostic-implicit-int-float-conversion)
 
 			score_.setString("Score : " + std::to_string(score_numb_));
 			score_.setOrigin(0, player_hp_.getGlobalBounds().height);
-			score_.setPosition(5, window_.getSize().y - 15);
+			score_.setPosition(5, window_.getSize().y - 15);  // NOLINT(bugprone-narrowing-conversions, clang-diagnostic-implicit-int-float-conversion, cppcoreguidelines-narrowing-conversions)
 
-			if (background_move_1.getPosition().y >= window_.getSize().y)
+			if (background_move_1_.getPosition().y >= window_.getSize().y)  // NOLINT(bugprone-narrowing-conversions, clang-diagnostic-implicit-int-float-conversion, cppcoreguidelines-narrowing-conversions)
 			{
-				background_move_1.setPosition(0, -static_cast<int>(window_.getSize().y));
-				background_move_2.setPosition(0, 0);
+				background_move_1_.setPosition(0, -static_cast<int>(window_.getSize().y));  // NOLINT(bugprone-narrowing-conversions, clang-diagnostic-implicit-int-float-conversion, cppcoreguidelines-narrowing-conversions)
+				background_move_2_.setPosition(0, 0);
 			}
-			else if (background_move_2.getPosition().y >= window_.getSize().y)
+			else if (background_move_2_.getPosition().y >= window_.getSize().y)  // NOLINT(bugprone-narrowing-conversions, clang-diagnostic-implicit-int-float-conversion, cppcoreguidelines-narrowing-conversions)
 			{
-				background_move_2.setPosition(0, -static_cast<int>(window_.getSize().y));
-				background_move_1.setPosition(0, 0);
+				background_move_2_.setPosition(0, -static_cast<int>(window_.getSize().y));  // NOLINT(bugprone-narrowing-conversions, clang-diagnostic-implicit-int-float-conversion, cppcoreguidelines-narrowing-conversions)
+				background_move_1_.setPosition(0, 0);
 			}
 
-			background_move_1.setPosition(background_move_1.getPosition().x, background_move_1.getPosition().y + 0.2);
-			background_move_2.setPosition(background_move_2.getPosition().x, background_move_2.getPosition().y + 0.2);
+			background_move_1_.setPosition(background_move_1_.getPosition().x, background_move_1_.getPosition().y + 0.2);  // NOLINT(bugprone-narrowing-conversions, clang-diagnostic-implicit-float-conversion, cppcoreguidelines-narrowing-conversions)
+			background_move_2_.setPosition(background_move_2_.getPosition().x, background_move_2_.getPosition().y + 0.2);  // NOLINT(bugprone-narrowing-conversions, clang-diagnostic-implicit-float-conversion, cppcoreguidelines-narrowing-conversions)
 
 
 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 			{
-				
+
 				player_missiles_.Spawn(starship_.GetPosition(), { 0, -1500 }, starship_.ShootSound(), 1);
 
 			}
@@ -116,7 +114,7 @@ void Game::Loop()
 			if (idle_cooldown_ > 0.1)
 			{
 				idle_frame_++;
-				if (idle_frame_ > starship_.IdleTextures().size() - 1)
+				if (idle_frame_ > starship_.IdleTextures().size() - 1)  // NOLINT(clang-diagnostic-sign-compare)
 				{
 					idle_frame_ = 0;
 				}
@@ -169,8 +167,8 @@ void Game::Loop()
 
 		window_.clear();
 		window_.draw(background_);
-		window_.draw(background_move_1);
-		window_.draw(background_move_2);
+		window_.draw(background_move_1_);
+		window_.draw(background_move_2_);
 		if (!starship_.IsDead())
 		{
 			window_.draw(player_missiles_);
@@ -180,14 +178,14 @@ void Game::Loop()
 			window_.draw(starship_);
 			window_.draw(player_hp_);
 			window_.draw(score_);
-			if (starship_.HeartIsVisible_())
+			if (starship_.HeartIsVisible())
 			{
 				starship_.DrawHeart(window_);
 			}
 		}
 		else
 		{
-			if (players_.size() > 0 && players_.at(0) > score_numb_)
+			if (!players_.empty() && players_.at(0) > score_numb_)
 			{
 				game_over_.setString("Game Over \n Your Score : " + std::to_string(score_numb_) + "\n High Score : " + std::to_string(players_.at(0)));
 			}
@@ -196,10 +194,10 @@ void Game::Loop()
 				game_over_.setString("Game Over \n Your Score : " + std::to_string(score_numb_) + "\n New High Score : " + std::to_string(score_numb_));
 			}
 			game_over_.setOrigin(player_hp_.getGlobalBounds().width, player_hp_.getGlobalBounds().height);
-			game_over_.setPosition(window_.getSize().x / 2, window_.getSize().y / 2);
+			game_over_.setPosition(window_.getSize().x / 2, window_.getSize().y / 2);  // NOLINT(bugprone-integer-division, bugprone-integer-division, clang-diagnostic-implicit-int-float-conversion, bugprone-narrowing-conversions, bugprone-narrowing-conversions)
 			window_.draw(game_over_);
 
-			music_backgound_.stop();
+			music_background_.stop();
 
 			if (music_game_over_.getStatus() == sf::Music::Stopped)
 			{
@@ -211,7 +209,7 @@ void Game::Loop()
 				game_over_cooldown_ += dt_;
 			}
 
-			if(game_over_cooldown_ >= music_game_over_.getDuration().asSeconds())
+			if (game_over_cooldown_ >= music_game_over_.getDuration().asSeconds())
 			{
 				players_.emplace_back(score_numb_);
 				save_.SaveGame(players_);

@@ -9,13 +9,13 @@
 #include "Projectile.h"
 #include "starship.h"
 
-class ProjectileManager : public sf::Drawable
+class ProjectileManager final : public sf::Drawable
 {
 
 private:
 	std::vector<Projectile> projectiles_;
 	sf::Clock cooldown_timer_;
-	float cooldwon_dt_ = 0;
+	float cooldown_dt_ = 0;
 
 public:
 	std::vector<Projectile>& GetEntities() { return projectiles_; }

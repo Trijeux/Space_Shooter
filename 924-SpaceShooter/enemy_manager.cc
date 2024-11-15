@@ -7,7 +7,7 @@
 
 constexpr float kSpawnPeriod = 0.95f;
 
-void EnemyManager::Refresh(float dt, const sf::Vector2u& window_size, ProjectileManager& enemy_missiles_manager)
+void EnemyManager::Refresh(const float dt, const sf::Vector2u& window_size, ProjectileManager& enemy_missiles_manager)
 {
 
 	spawn_dt_ += dt;
@@ -15,26 +15,20 @@ void EnemyManager::Refresh(float dt, const sf::Vector2u& window_size, Projectile
 	{
 		enemies_.emplace_back();
 
-		// Tirage aléatoire de Y
+		// Tirage aléatoire de Y  // NOLINT(clang-diagnostic-invalid-utf8)
 		// // Seed with a real random value, if available
 		std::random_device rn_device;
 		// Choose a random mean between 1 and 6
 		std::default_random_engine engine(rn_device());
-		std::uniform_real_distribution<float> uniform_dist(0, window_size.y);
-
+		std::uniform_real_distribution<float> uniform_dist(0, window_size.y);  // NOLINT(bugprone-narrowing-conversions, clang-diagnostic-implicit-int-float-conversion, cppcoreguidelines-narrowing-conversions)
 		enemies_.back().SetPosition(uniform_dist(engine), 0);
 
 		spawn_dt_ = 0;
 	}
 
 	// Cleaning unused projectiles
-	auto removed_elt = std::remove_if(
-		enemies_.begin(),
-		enemies_.end(),
-		[](const Enemy& e) {return e.IsDead(); }
-	);
 
-	if (removed_elt != enemies_.end())
+	if (const auto removed_elt = std::ranges::remove_if(enemies_,[](const Enemy& e) {return e.IsDead(); }).begin(); removed_elt != enemies_.end())
 	{
 		enemies_.erase(removed_elt);
 	}
@@ -46,7 +40,7 @@ void EnemyManager::Refresh(float dt, const sf::Vector2u& window_size, Projectile
 		e.Refresh(dt);
 		if (e.IsShootReady())
 		{
-			enemy_missiles_manager.Spawn(e.GetPosition(), { 0, 750 }, e.ShootSound(), -1);
+			enemy_missiles_manager.Spawn(e.GetPosition(), { 0, 750 }, e.ShootSound(), -1);  // NOLINT(readability-static-accessed-through-instance)
 		}
 	}
 
