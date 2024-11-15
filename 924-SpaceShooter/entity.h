@@ -31,6 +31,7 @@ public:
 	void Move(float dt, const sf::Vector2u& window_size);
 	void SetPosition(float x, float y);
 	void SetPosition(sf::Vector2f position);
+	void SetScale(int scale_x, int scale_y);
 
 	bool Intersects(sf::FloatRect hitBox) const;
 	sf::FloatRect HitBox() { return hit_box_; };

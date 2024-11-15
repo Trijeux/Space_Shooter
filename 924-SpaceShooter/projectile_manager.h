@@ -20,7 +20,7 @@ private:
 public:
 	std::vector<Projectile>& GetEntities() { return projectiles_; }
 
-	void Spawn(sf::Vector2f spawn_position, sf::Vector2f direction, sf::Sound& sound);
+	void Spawn(sf::Vector2f spawn_position, sf::Vector2f direction, sf::Sound& sound, int rotate);
 	void Refresh(float dt, const sf::Vector2u& window_size);
 
 	bool CheckCollisions(std::vector<Asteroid>& asteroids);

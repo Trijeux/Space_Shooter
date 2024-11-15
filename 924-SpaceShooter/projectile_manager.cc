@@ -8,7 +8,7 @@
 
 constexpr float kCooldownLimit = 0.15f;
 
-void ProjectileManager::Spawn(sf::Vector2f spawn_position, sf::Vector2f direction, sf::Sound& sound)
+void ProjectileManager::Spawn(sf::Vector2f spawn_position, sf::Vector2f direction, sf::Sound& sound, int rotate)
 {
 
 	if (cooldwon_dt_ < kCooldownLimit)
@@ -17,6 +17,7 @@ void ProjectileManager::Spawn(sf::Vector2f spawn_position, sf::Vector2f directio
 	sound.play();
 	projectiles_.emplace_back(direction);
 	projectiles_.back().SetPosition(spawn_position);
+	projectiles_.back().SetScale(1, rotate);
 	cooldwon_dt_ = 0;
 
 }

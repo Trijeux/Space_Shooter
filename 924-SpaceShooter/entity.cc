@@ -37,6 +37,11 @@ void Entity::SetPosition(sf::Vector2f position)
 	setPosition(position.x, position.y);
 }
 
+void Entity::SetScale(int scale_x, int scale_y)
+{
+	setScale(scale_x, scale_y);
+}
+
 bool Entity::Intersects(sf::FloatRect hitBox) const
 {
 	return hit_box_.intersects(hitBox);

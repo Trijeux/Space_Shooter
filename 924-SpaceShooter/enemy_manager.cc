@@ -46,7 +46,7 @@ void EnemyManager::Refresh(float dt, const sf::Vector2u& window_size, Projectile
 		e.Refresh(dt);
 		if (e.IsShootReady())
 		{
-			enemy_missiles_manager.Spawn(e.GetPosition(), { 0, 750 }, e.ShootSound());
+			enemy_missiles_manager.Spawn(e.GetPosition(), { 0, 750 }, e.ShootSound(), -1);
 		}
 	}
 
