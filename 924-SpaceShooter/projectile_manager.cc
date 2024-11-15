@@ -4,15 +4,17 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 
 #include "asteroid.h"
+#include "starship.h"
 
 constexpr float kCooldownLimit = 0.15f;
 
-void ProjectileManager::Spawn(sf::Vector2f spawn_position, sf::Vector2f direction)
+void ProjectileManager::Spawn(sf::Vector2f spawn_position, sf::Vector2f direction, sf::Sound& sound)
 {
 
 	if (cooldwon_dt_ < kCooldownLimit)
 		return;
 
+	sound.play();
 	projectiles_.emplace_back(direction);
 	projectiles_.back().SetPosition(spawn_position);
 	cooldwon_dt_ = 0;

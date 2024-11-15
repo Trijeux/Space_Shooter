@@ -1,6 +1,7 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
+#include <SFML/Audio.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/Clock.hpp>
 
@@ -19,8 +20,12 @@ private:
 
 	void SetDeath();
 
+	static sf::SoundBuffer soundFx_Card;
+	static sf::Sound Shoot_Sound;
 public:
 	Enemy();
+
+	sf::Sound& ShootSound() { return Shoot_Sound; }
 
 	sf::Vector2f GetPosition();
 

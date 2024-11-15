@@ -1,6 +1,9 @@
 #include "enemy.h"
 
 sf::Texture Enemy::texture_;
+sf::SoundBuffer Enemy::soundFx_Card;
+sf::Sound Enemy::Shoot_Sound;
+
 
 constexpr float kShootPeriod = 0.3f;
 constexpr float kBurstPeriod = 0.5f;
@@ -17,6 +20,9 @@ Enemy::Enemy()
 
 	direction_ = { 0, 150 };
 
+	soundFx_Card.loadFromFile("assets/Sound/Card.wav");
+	Shoot_Sound.setBuffer(soundFx_Card);
+	Shoot_Sound.setVolume(15);
 }
 
 sf::Vector2f Enemy::GetPosition()

@@ -40,7 +40,7 @@ Game::Game()
 	music_.openFromFile("assets/Sound/Airwolf_2.wav");
 	music_.setLoop(true);
 	music_.play();
-	music_.setVolume(30);
+	music_.setVolume(15);
 }
 void Game::Loop()
 {
@@ -74,7 +74,7 @@ void Game::Loop()
 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 			{
-				player_missiles_.Spawn(starship_.GetPosition(), { 0, -1500 });
+				player_missiles_.Spawn(starship_.GetPosition(), { 0, -1500 }, starship_.ShootSound());
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 				starship_.Move({ 0, -1 }, dt_, window_.getSize());

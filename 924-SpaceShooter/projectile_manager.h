@@ -7,6 +7,7 @@
 #include "asteroid.h"
 #include "enemy.h"
 #include "Projectile.h"
+#include "starship.h"
 
 class ProjectileManager : public sf::Drawable
 {
@@ -19,7 +20,7 @@ private:
 public:
 	std::vector<Projectile>& GetEntities() { return projectiles_; }
 
-	void Spawn(sf::Vector2f spawn_position, sf::Vector2f direction);
+	void Spawn(sf::Vector2f spawn_position, sf::Vector2f direction, sf::Sound& sound);
 	void Refresh(float dt, const sf::Vector2u& window_size);
 
 	bool CheckCollisions(std::vector<Asteroid>& asteroids);

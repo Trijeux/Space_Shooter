@@ -56,6 +56,14 @@ Starship::Starship()
 
 	hit_box_.height = (float)heart_hit_box_sprite_.getTextureRect().width;
 	hit_box_.width = (float)heart_hit_box_sprite_.getTextureRect().height;
+
+	soundFx_Card.loadFromFile("assets/Sound/Card.wav");
+	Shoot_Sound.setBuffer(soundFx_Card);
+	Shoot_Sound.setVolume(30);
+
+	soundFx_Hit.loadFromFile("assets/Sound/damage.wav");
+	Hit_Sound.setBuffer(soundFx_Hit);
+	Hit_Sound.setVolume(50);
 }
 
 void Starship::Move(sf::Vector2f direction, float dt, sf::Vector2u window_size)
@@ -104,6 +112,7 @@ void Starship::CheckCollisions(std::vector<Asteroid>& asteroids)
 				is_dead_ = true;
 			}
 			is_hit_ = true;
+			Hit_Sound.play();
 		}
 	}
 }
@@ -121,6 +130,7 @@ void Starship::CheckCollisions(std::vector<Projectile>& projectiles)
 				is_dead_ = true;
 			}
 			is_hit_ = true;
+			Hit_Sound.play();
 		}
 	}
 }
@@ -138,6 +148,7 @@ void Starship::CheckCollisions(std::vector<Enemy>& enemies)
 				is_dead_ = true;
 			}
 			is_hit_ = true;
+			Hit_Sound.play();
 		}
 	}
 }

@@ -9,6 +9,7 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Transformable.hpp>
+#include <SFML/Audio.hpp>
 
 #include "asteroid.h"
 #include "enemy.h"
@@ -47,7 +48,14 @@ private:
 
 	bool is_hit_ = false;
 	int num_hit_anim = 0;
+
+	sf::SoundBuffer soundFx_Card;
+	sf::Sound Shoot_Sound;
+
+	sf::SoundBuffer soundFx_Hit;
+	sf::Sound Hit_Sound;
 public:
+	sf::Sound& ShootSound() { return Shoot_Sound; }
 
 	void AnimUpdate(int fram);
 
