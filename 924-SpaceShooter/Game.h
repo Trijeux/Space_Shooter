@@ -18,7 +18,8 @@ public:
 private:
 	sf::RenderWindow window_;
 
-	sf::Music music_;
+	sf::Music music_backgound_;
+	sf::Music music_game_over_;
 
 	ProjectileManager player_missiles_;
 	ProjectileManager enemy_missiles_;
@@ -50,6 +51,7 @@ private:
 	int idle_frame_ = 0;
 	float idle_cooldown_ = 0;
 	float hit_cooldown_ = 0;
+	float game_over_cooldown_ = 0;
 
 	Save save_;
 };

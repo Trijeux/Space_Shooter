@@ -11,7 +11,10 @@ constexpr float kCooldownLimit = 0.15f;
 Game::Game()
 {
 	HWND consoleWindow = GetConsoleWindow();
-	ShowWindow(consoleWindow, SW_HIDE);
+	ShowWindow(consoleWindow, SW_SHOW);
+
+	/*HWND consoleWindow = GetConsoleWindow();
+	ShowWindow(consoleWindow, SW_HIDE);*/
 
 	backgroud_texture_.loadFromFile("assets/PNG/Background.png");
 	backgroud_move_texture.loadFromFile("assets/PNG/Background_move.png");
@@ -41,10 +44,13 @@ Game::Game()
 
 	save_.Load(players_);
 
-	music_.openFromFile("assets/Sound/Airwolf_2.wav");
-	music_.setLoop(true);
-	music_.play();
-	music_.setVolume(15);
+	music_backgound_.openFromFile("assets/Sound/Airwolf_2.wav");
+	music_backgound_.setLoop(true);
+	music_backgound_.play();
+	music_backgound_.setVolume(15);
+
+	music_game_over_.openFromFile("assets/Sound/Game Over.wav");
+	music_game_over_.setVolume(25);
 }
 void Game::Loop()
 {
@@ -192,6 +198,25 @@ void Game::Loop()
 			game_over_.setOrigin(player_hp_.getGlobalBounds().width, player_hp_.getGlobalBounds().height);
 			game_over_.setPosition(window_.getSize().x / 2, window_.getSize().y / 2);
 			window_.draw(game_over_);
+
+			music_backgound_.stop();
+
+			if (music_game_over_.getStatus() == sf::Music::Stopped)
+			{
+				music_game_over_.play();
+			}
+
+			if (music_game_over_.getStatus() == sf::Music::Playing)
+			{
+				game_over_cooldown_ += dt_;
+			}
+
+			if(game_over_cooldown_ >= music_game_over_.getDuration().asSeconds())
+			{
+				players_.emplace_back(score_numb_);
+				save_.SaveGame(players_);
+				window_.close();
+			}
 		}
 		window_.display();
 

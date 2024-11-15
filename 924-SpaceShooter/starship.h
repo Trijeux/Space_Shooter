@@ -74,6 +74,7 @@ public:
 	void Move(sf::Vector2f direction, float dt, sf::Vector2u window_size);
 
 	void SetPosition(sf::Vector2u position);
+	void HitStarShip();
 	sf::Vector2f GetPosition() { return getPosition(); }
 
 	sf::FloatRect HitBox() { return hit_box_; }

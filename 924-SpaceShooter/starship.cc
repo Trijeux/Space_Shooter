@@ -99,6 +99,17 @@ void Starship::SetPosition(sf::Vector2u position)
 	heart_hit_box_sprite_.setPosition(getPosition());
 }
 
+void Starship::HitStarShip()
+{
+	hp_--;
+	if (hp_ <= 0)
+	{
+		is_dead_ = true;
+	}
+	is_hit_ = true;
+	Hit_Sound.play();
+}
+
 void Starship::CheckCollisions(std::vector<Asteroid>& asteroids)
 {
 	for (auto& a : asteroids)
@@ -106,13 +117,7 @@ void Starship::CheckCollisions(std::vector<Asteroid>& asteroids)
 		if (a.IsDead() == false && hit_box_.intersects(a.HitBox()))
 		{
 			a.SetDeath();
-			hp_--;
-			if (hp_ <= 0)
-			{
-				is_dead_ = true;
-			}
-			is_hit_ = true;
-			Hit_Sound.play();
+			HitStarShip();
 		}
 	}
 }
@@ -124,13 +129,7 @@ void Starship::CheckCollisions(std::vector<Projectile>& projectiles)
 		if (p.IsDead() == false && hit_box_.intersects(p.HitBox()))
 		{
 			p.SetDeath();
-			hp_--;
-			if (hp_ <= 0)
-			{
-				is_dead_ = true;
-			}
-			is_hit_ = true;
-			Hit_Sound.play();
+			HitStarShip();
 		}
 	}
 }
@@ -142,13 +141,7 @@ void Starship::CheckCollisions(std::vector<Enemy>& enemies)
 		if (e.IsDead() == false && hit_box_.intersects(e.HitBox()))
 		{
 			e.Damage(5);
-			hp_--;
-			if (hp_ <= 0)
-			{
-				is_dead_ = true;
-			}
-			is_hit_ = true;
-			Hit_Sound.play();
+			HitStarShip();
 		}
 	}
 }
