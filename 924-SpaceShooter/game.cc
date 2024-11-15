@@ -78,7 +78,9 @@ void Game::Loop()
 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 			{
+				
 				player_missiles_.Spawn(starship_.GetPosition(), { 0, -1500 }, starship_.ShootSound(), 1);
+
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 				starship_.Move({ 0, -1 }, dt_, window_.getSize());
