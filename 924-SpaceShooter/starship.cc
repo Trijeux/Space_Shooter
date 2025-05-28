@@ -32,7 +32,8 @@ void Starship::HitAnimation(float& hit_cooldown)
 	}
 }
 
-Starship::Starship()
+Starship::Starship() : sprite_(empty_texture_), heart_visual_sprite_(heart_visual_texture_), heart_hit_box_sprite_(heart_hit_box_texture_),
+shoot_sound_(sound_fx_card_), hit_sound_(sound_fx_hit_)
 {
 	turn_textures_.at(static_cast<int>(TurnFarm::kRight)).loadFromFile("Assets/PNG/Reimu_right.png");
 	turn_textures_.at(static_cast<int>(TurnFarm::kLeft)).loadFromFile("Assets/PNG/Reimu_left.png");
@@ -42,20 +43,20 @@ Starship::Starship()
 		idle_textures_.at(idx).loadFromFile("Assets/PNG/Reimu_Idle(" + std::to_string(idx) + ").png");
 	}
 
-	sprite_.setTexture(idle_textures_.at(0));
-	sprite_.setOrigin(idle_textures_.at(0).getSize().x / 2, idle_textures_.at(0).getSize().y / 2);  // NOLINT(bugprone-integer-division, clang-diagnostic-implicit-int-float-conversion, bugprone-narrowing-conversions, cppcoreguidelines-narrowing-conversions)
+	sprite_ = sf::Sprite(idle_textures_.at(0));
+	sprite_.setOrigin(sf::Vector2f(idle_textures_.at(0).getSize().x / 2, idle_textures_.at(0).getSize().y / 2));  // NOLINT(bugprone-integer-division, clang-diagnostic-implicit-int-float-conversion, bugprone-narrowing-conversions, cppcoreguidelines-narrowing-conversions)
 
 	heart_visual_texture_.loadFromFile("assets/PNG/Heart.png");
-	heart_visual_sprite_.setTexture(heart_visual_texture_);
-	heart_visual_sprite_.setOrigin(heart_visual_sprite_.getGlobalBounds().width / 2, heart_visual_sprite_.getGlobalBounds().height / 2);
+	heart_visual_sprite_ = sf::Sprite(heart_visual_texture_);
+	heart_visual_sprite_.setOrigin(sf::Vector2f(heart_visual_sprite_.getGlobalBounds().size.x / 2, heart_visual_sprite_.getGlobalBounds().size.y / 2));
 
 	heart_hit_box_texture_.loadFromFile("assets/PNG/Heart_Gameplay.png");
-	heart_hit_box_sprite_.setTexture(heart_hit_box_texture_);
-	heart_hit_box_sprite_.setOrigin(heart_hit_box_sprite_.getGlobalBounds().width / 2, heart_hit_box_sprite_.getGlobalBounds().height / 2);
+	heart_hit_box_sprite_ = sf::Sprite(heart_hit_box_texture_);
+	heart_hit_box_sprite_.setOrigin(sf::Vector2f(heart_hit_box_sprite_.getGlobalBounds().size.x / 2, heart_hit_box_sprite_.getGlobalBounds().size.y / 2));
 
 
-	hit_box_.height = static_cast<float>(heart_hit_box_sprite_.getTextureRect().width);
-	hit_box_.width = static_cast<float>(heart_hit_box_sprite_.getTextureRect().height);
+	hit_box_.size.y = static_cast<float>(heart_hit_box_sprite_.getTextureRect().size.x);
+	hit_box_.size.x = static_cast<float>(heart_hit_box_sprite_.getTextureRect().size.y);
 
 	sound_fx_card_.loadFromFile("assets/Sound/Card.wav");
 	shoot_sound_.setBuffer(sound_fx_card_);
@@ -79,22 +80,22 @@ void Starship::Move(const sf::Vector2f direction, const float dt, const sf::Vect
 		sprite_.setTexture(turn_textures_.at(static_cast<int>(TurnFarm::kRight)));
 	}
 
-	if (!(new_pos.x < 0 + sprite_.getGlobalBounds().width / 2 || new_pos.x > window_size.x - sprite_.getGlobalBounds().width / 2 || new_pos.y < 0 + sprite_.getGlobalBounds().height / 2 || new_pos.y > window_size.y - sprite_.getGlobalBounds().height / 2))  // NOLINT(bugprone-narrowing-conversions, clang-diagnostic-implicit-int-float-conversion, cppcoreguidelines-narrowing-conversions)
+	if (!(new_pos.x < 0 + sprite_.getGlobalBounds().size.x / 2 || new_pos.x > window_size.x - sprite_.getGlobalBounds().size.y / 2 || new_pos.y < 0 + sprite_.getGlobalBounds().size.y / 2 || new_pos.y > window_size.y - sprite_.getGlobalBounds().size.y / 2))  // NOLINT(bugprone-narrowing-conversions, clang-diagnostic-implicit-int-float-conversion, cppcoreguidelines-narrowing-conversions)
 	{
 		move(direction * speed_ * dt);
 		heart_visual_sprite_.setPosition(getPosition());
 		heart_hit_box_sprite_.setPosition(getPosition());
 	}
 	
-	hit_box_.left = getPosition().x - hit_box_.width / 2;
-	hit_box_.top = getPosition().y - hit_box_.height / 2;
+	hit_box_.position.x = getPosition().x - hit_box_.size.x / 2;
+	hit_box_.position.y = getPosition().y - hit_box_.size.y / 2;
 }
 
 void Starship::SetPosition(const sf::Vector2u position)
 {
 	setPosition(sf::Vector2f(position));
-	hit_box_.left = getPosition().x - hit_box_.width / 2;
-	hit_box_.top = getPosition().y - hit_box_.height / 2;
+	hit_box_.position.x = getPosition().x - hit_box_.size.x / 2;
+	hit_box_.position.y = getPosition().y - hit_box_.size.y / 2;
 	heart_visual_sprite_.setPosition(getPosition());
 	heart_hit_box_sprite_.setPosition(getPosition());
 }
@@ -114,7 +115,7 @@ void Starship::CheckCollisions(std::vector<Asteroid>& asteroids)
 {
 	for (auto& a : asteroids)
 	{
-		if (a.IsDead() == false && hit_box_.intersects(a.HitBox()))
+		if (a.IsDead() == false && hit_box_.findIntersection(a.HitBox()))
 		{
 			a.SetDeath();
 			HitStarShip();
@@ -126,7 +127,7 @@ void Starship::CheckCollisions(std::vector<Projectile>& projectiles)
 {
 	for (auto& p : projectiles)
 	{
-		if (p.IsDead() == false && hit_box_.intersects(p.HitBox()))
+		if (p.IsDead() == false && hit_box_.findIntersection(p.HitBox()))
 		{
 			p.SetDeath();
 			HitStarShip();
@@ -138,7 +139,7 @@ void Starship::CheckCollisions(std::vector<Enemy>& enemies)
 {
 	for (auto& e : enemies)
 	{
-		if (e.IsDead() == false && hit_box_.intersects(e.HitBox()))
+		if (e.IsDead() == false && hit_box_.findIntersection(e.HitBox()))
 		{
 			e.Damage(5);
 			HitStarShip();

@@ -26,7 +26,7 @@ private:
 		kLeft,
 	};
 
-
+	sf::Texture empty_texture_;
 	sf::Sprite sprite_;
 	sf::FloatRect hit_box_;
 	float speed_ = kSpeed;

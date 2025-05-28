@@ -4,6 +4,7 @@
 #include <math.h>
 
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
 
 class Entity : public sf::Drawable, protected sf::Transformable
 {
@@ -11,7 +12,8 @@ class Entity : public sf::Drawable, protected sf::Transformable
 	// Members -----------------
 protected:
 	sf::Vector2f direction_;
-	sf::Sprite sprite_;
+	sf::Texture empty_texture_;
+	sf::Sprite sprite_ = sf::Sprite(empty_texture_);
 	sf::FloatRect hit_box_;
 
 	bool is_dead_ = false;

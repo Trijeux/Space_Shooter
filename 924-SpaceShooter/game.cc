@@ -8,7 +8,8 @@
 
 constexpr float kCooldownLimit = 0.15f;
 
-Game::Game()
+Game::Game() : background_(background_texture_), background_move_1_(background_move_texture_),
+background_move_2_(background_move_texture_), score_(font_), game_over_(font_), player_hp_(font_)
 {
 	//HWND console_window = GetConsoleWindow();
 	//ShowWindow(consoleWindow, SW_SHOW);
@@ -17,25 +18,25 @@ Game::Game()
 	background_texture_.loadFromFile("assets/PNG/Background.png");
 	background_move_texture_.loadFromFile("assets/PNG/Background_move.png");
 
-	background_.setTexture(background_texture_);
-	background_.setScale(1.2f, 1.2f);
-	background_move_1_.setTexture(background_move_texture_);
-	background_move_1_.setScale(1.2f, 1.2f);
+	background_	= sf::Sprite(background_texture_);
+	background_.setScale(sf::Vector2f(1.2f, 1.2f));
+	background_move_1_ = sf::Sprite(background_move_texture_);
+	background_move_1_.setScale(sf::Vector2f(1.2f, 1.2f));
 	background_move_1_.setColor(sf::Color(255, 255, 255, 100));
-	background_move_2_.setTexture(background_move_texture_);
-	background_move_2_.setScale(1.2f, 1.2f);
+	background_move_2_ = sf::Sprite(background_move_texture_);
+	background_move_2_.setScale(sf::Vector2f(1.2f, 1.2f));
 	background_move_2_.setColor(sf::Color(255, 255, 255, 100));
 
 
-	window_.create(sf::VideoMode(background_.getGlobalBounds().width, background_.getGlobalBounds().height), "Space Shooter !!!");   // NOLINT(bugprone-narrowing-conversions, clang-diagnostic-float-conversion, cppcoreguidelines-narrowing-conversions)
+	window_.create(sf::VideoMode(sf::Vector2u(background_.getGlobalBounds().size.x, background_.getGlobalBounds().size.y)), "Space Shooter !!!");   // NOLINT(bugprone-narrowing-conversions, clang-diagnostic-float-conversion, cppcoreguidelines-narrowing-conversions)
 
 	starship_.SetPosition(sf::Vector2u(static_cast<float>(window_.getSize().x) / 2, static_cast<float>(window_.getSize().y / 6) * 5));  // NOLINT(bugprone-narrowing-conversions, bugprone-narrowing-conversions, bugprone-integer-division, clang-diagnostic-float-conversion, cppcoreguidelines-narrowing-conversions, cppcoreguidelines-narrowing-conversions)
 
-	background_move_2_.setPosition(0, -static_cast<int>(window_.getSize().y));  // NOLINT(clang-diagnostic-implicit-int-float-conversion)
+	background_move_2_.setPosition(sf::Vector2f(0, -static_cast<int>(window_.getSize().y)));  // NOLINT(clang-diagnostic-implicit-int-float-conversion)
 
 	window_.setMouseCursorVisible(false);
 
-	font_.loadFromFile("assets/Font/Vermin Vibes 1989.ttf");
+	font_.openFromFile("assets/Font/Vermin Vibes 1989.ttf");
 	score_.setFont(font_);
 	game_over_.setFont(font_);
 	player_hp_.setFont(font_);
@@ -43,7 +44,7 @@ Game::Game()
 	save_.Load(players_);
 
 	music_background_.openFromFile("assets/Sound/Airwolf_2.wav");
-	music_background_.setLoop(true);
+	music_background_.setLooping(true);
 	music_background_.play();
 	music_background_.setVolume(15);
 
@@ -57,47 +58,47 @@ void Game::Loop()
 		if (!starship_.IsDead())
 		{
 			player_hp_.setString("HP : " + std::to_string(starship_.Hp()));
-			player_hp_.setOrigin(player_hp_.getGlobalBounds().width, 0);
-			player_hp_.setPosition(window_.getSize().x - 10, 5);  // NOLINT(bugprone-narrowing-conversions, cppcoreguidelines-narrowing-conversions, clang-diagnostic-implicit-int-float-conversion)
+			player_hp_.setOrigin(sf::Vector2f(player_hp_.getGlobalBounds().size.x, 0));
+			player_hp_.setPosition(sf::Vector2f(window_.getSize().x - 10, 5));  // NOLINT(bugprone-narrowing-conversions, cppcoreguidelines-narrowing-conversions, clang-diagnostic-implicit-int-float-conversion)
 
 			score_.setString("Score : " + std::to_string(score_numb_));
-			score_.setOrigin(0, player_hp_.getGlobalBounds().height);
-			score_.setPosition(5, window_.getSize().y - 15);  // NOLINT(bugprone-narrowing-conversions, clang-diagnostic-implicit-int-float-conversion, cppcoreguidelines-narrowing-conversions)
+			score_.setOrigin(sf::Vector2f(0, player_hp_.getGlobalBounds().size.y));
+			score_.setPosition(sf::Vector2f(5, window_.getSize().y - 15));  // NOLINT(bugprone-narrowing-conversions, clang-diagnostic-implicit-int-float-conversion, cppcoreguidelines-narrowing-conversions)
 
 			if (background_move_1_.getPosition().y >= window_.getSize().y)  // NOLINT(bugprone-narrowing-conversions, clang-diagnostic-implicit-int-float-conversion, cppcoreguidelines-narrowing-conversions)
 			{
-				background_move_1_.setPosition(0, -static_cast<int>(window_.getSize().y));  // NOLINT(bugprone-narrowing-conversions, clang-diagnostic-implicit-int-float-conversion, cppcoreguidelines-narrowing-conversions)
-				background_move_2_.setPosition(0, 0);
+				background_move_1_.setPosition(sf::Vector2f(0, -static_cast<int>(window_.getSize().y)));  // NOLINT(bugprone-narrowing-conversions, clang-diagnostic-implicit-int-float-conversion, cppcoreguidelines-narrowing-conversions)
+				background_move_2_.setPosition(sf::Vector2f(0, 0));
 			}
 			else if (background_move_2_.getPosition().y >= window_.getSize().y)  // NOLINT(bugprone-narrowing-conversions, clang-diagnostic-implicit-int-float-conversion, cppcoreguidelines-narrowing-conversions)
 			{
-				background_move_2_.setPosition(0, -static_cast<int>(window_.getSize().y));  // NOLINT(bugprone-narrowing-conversions, clang-diagnostic-implicit-int-float-conversion, cppcoreguidelines-narrowing-conversions)
-				background_move_1_.setPosition(0, 0);
+				background_move_2_.setPosition(sf::Vector2f(0, -static_cast<int>(window_.getSize().y)));  // NOLINT(bugprone-narrowing-conversions, clang-diagnostic-implicit-int-float-conversion, cppcoreguidelines-narrowing-conversions)
+				background_move_1_.setPosition(sf::Vector2f(0, 0));
 			}
 
-			background_move_1_.setPosition(background_move_1_.getPosition().x, background_move_1_.getPosition().y + 0.2);  // NOLINT(bugprone-narrowing-conversions, clang-diagnostic-implicit-float-conversion, cppcoreguidelines-narrowing-conversions)
-			background_move_2_.setPosition(background_move_2_.getPosition().x, background_move_2_.getPosition().y + 0.2);  // NOLINT(bugprone-narrowing-conversions, clang-diagnostic-implicit-float-conversion, cppcoreguidelines-narrowing-conversions)
+			background_move_1_.setPosition(sf::Vector2f(background_move_1_.getPosition().x, background_move_1_.getPosition().y + 0.2));  // NOLINT(bugprone-narrowing-conversions, clang-diagnostic-implicit-float-conversion, cppcoreguidelines-narrowing-conversions)
+			background_move_2_.setPosition(sf::Vector2f(background_move_2_.getPosition().x, background_move_2_.getPosition().y + 0.2));  // NOLINT(bugprone-narrowing-conversions, clang-diagnostic-implicit-float-conversion, cppcoreguidelines-narrowing-conversions)
 
 
 
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+			if (isKeyPressed(sf::Keyboard::Key::Space))
 			{
 
 				player_missiles_.Spawn(starship_.GetPosition(), { 0, -1500 }, starship_.ShootSound(), 1);
 
 			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+			if (isKeyPressed(sf::Keyboard::Key::Up))
 				starship_.Move({ 0, -1 }, dt_, window_.getSize());
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+			if (isKeyPressed(sf::Keyboard::Key::Down))
 				starship_.Move({ 0, 1 }, dt_, window_.getSize());
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+			if (isKeyPressed(sf::Keyboard::Key::Left) && isKeyPressed(sf::Keyboard::Key::Right))
 			{
 				starship_.Move({ 0, 0 }, dt_, window_.getSize());
 				starship_.AnimUpdate(idle_frame_);
 			}
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+			else if (isKeyPressed(sf::Keyboard::Key::Left))
 				starship_.Move({ -1 , 0 }, dt_, window_.getSize());
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+			else if (isKeyPressed(sf::Keyboard::Key::Right))
 				starship_.Move({ 1, 0 }, dt_, window_.getSize());
 			else
 			{
@@ -105,7 +106,7 @@ void Game::Loop()
 				starship_.AnimUpdate(idle_frame_);
 			}
 
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+			if (isKeyPressed(sf::Keyboard::Key::LShift))
 				starship_.SlowMove();
 			else
 				starship_.NormalMove();
@@ -147,10 +148,9 @@ void Game::Loop()
 
 		}
 
-		sf::Event event;
-		while (window_.pollEvent(event))
+		while (const std::optional event = window_.pollEvent())
 		{
-			if (event.type == sf::Event::Closed)
+			if (event->is<sf::Event::Closed>())
 			{
 				players_.emplace_back(score_numb_);
 				save_.SaveGame(players_);
@@ -158,7 +158,8 @@ void Game::Loop()
 			}
 		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+
+		if (isKeyPressed(sf::Keyboard::Key::Escape))
 		{
 			players_.emplace_back(score_numb_);
 			save_.SaveGame(players_);
@@ -193,18 +194,18 @@ void Game::Loop()
 			{
 				game_over_.setString("Game Over \n Your Score : " + std::to_string(score_numb_) + "\n New High Score : " + std::to_string(score_numb_));
 			}
-			game_over_.setOrigin(player_hp_.getGlobalBounds().width, player_hp_.getGlobalBounds().height);
-			game_over_.setPosition(window_.getSize().x / 2, window_.getSize().y / 2);  // NOLINT(bugprone-integer-division, bugprone-integer-division, clang-diagnostic-implicit-int-float-conversion, bugprone-narrowing-conversions, bugprone-narrowing-conversions)
+			game_over_.setOrigin(sf::Vector2f(player_hp_.getGlobalBounds().size.x, player_hp_.getGlobalBounds().size.y));
+			game_over_.setPosition(sf::Vector2f(window_.getSize().x / 2, window_.getSize().y / 2));  // NOLINT(bugprone-integer-division, bugprone-integer-division, clang-diagnostic-implicit-int-float-conversion, bugprone-narrowing-conversions, bugprone-narrowing-conversions)
 			window_.draw(game_over_);
 
 			music_background_.stop();
 
-			if (music_game_over_.getStatus() == sf::Music::Stopped)
+			if (music_game_over_.getStatus() == sf::Music::Status::Stopped)
 			{
 				music_game_over_.play();
 			}
 
-			if (music_game_over_.getStatus() == sf::Music::Playing)
+			if (music_game_over_.getStatus() == sf::Music::Status::Playing)
 			{
 				game_over_cooldown_ += dt_;
 			}
